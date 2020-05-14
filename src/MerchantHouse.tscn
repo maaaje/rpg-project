@@ -1,0 +1,155 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://src/Interior.tres" type="TileSet" id=1]
+[ext_resource path="res://src/Interior/Bookshelf.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/MerchantHouse.gd" type="Script" id=4]
+[ext_resource path="res://src/Merchant.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Interior/Cupboard_Large.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Interior/FirePlace.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/housing/books.png" type="Texture" id=8]
+[ext_resource path="res://assets/housing/wooden_chair.png" type="Texture" id=9]
+[ext_resource path="res://assets/housing/candle.png" type="Texture" id=10]
+[ext_resource path="res://src/Interior/Table_Large.tscn" type="PackedScene" id=11]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8.06945, 1.68066 )
+
+[node name="MerchantHouse" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Floor" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 196609, 19, 0, 196610, 19, 0, 196611, 19, 0, 196612, 19, 0, 196613, 19, 0, 196614, 19, 0, 196615, 19, 0, 196616, 19, 0, 196617, 19, 0, 196618, 19, 0, 196619, 19, 0, 196620, 19, 0, 196621, 19, 0, 196622, 19, 0, 262145, 19, 0, 262146, 19, 0, 262147, 19, 0, 262148, 19, 0, 262149, 19, 0, 262150, 19, 0, 262151, 19, 0, 262152, 19, 0, 262153, 19, 0, 262154, 19, 0, 262155, 19, 0, 262156, 19, 0, 262157, 19, 0, 262158, 19, 0, 327681, 19, 0, 327682, 19, 0, 327683, 19, 0, 327684, 19, 0, 327685, 19, 0, 327686, 19, 0, 327687, 19, 0, 327688, 19, 0, 327689, 19, 0, 327690, 19, 0, 327691, 19, 0, 327692, 19, 0, 327693, 19, 0, 327694, 19, 0, 393217, 19, 0, 393218, 19, 0, 393219, 19, 0, 393220, 19, 0, 393221, 19, 0, 393222, 19, 0, 393223, 19, 0, 393224, 19, 0, 393225, 19, 0, 393226, 19, 0, 393227, 19, 0, 393228, 19, 0, 393229, 19, 0, 393230, 19, 0, 458753, 19, 0, 458754, 19, 0, 458755, 19, 0, 458756, 19, 0, 458757, 19, 0, 458758, 19, 0, 458759, 19, 0, 458760, 19, 0, 458761, 19, 0, 458762, 19, 0, 458763, 19, 0, 458764, 19, 0, 458765, 19, 0, 458766, 19, 0, 524289, 19, 0, 524290, 19, 0, 524291, 19, 0, 524292, 19, 0, 524293, 19, 0, 524294, 19, 0, 524295, 19, 0, 524296, 19, 0, 524297, 19, 0, 524298, 19, 0, 524299, 19, 0, 524300, 19, 0, 524301, 19, 0, 524302, 19, 0, 589831, 19, 0, 655367, 19, 0, 720903, 19, 0 )
+
+[node name="Walls" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 0, 20, 0, 1, 17, 0, 2, 17, 1, 3, 17, 1, 4, 17, 1, 5, 17, 2, 6, 17, 2, 7, 17, 1, 8, 17, 1, 9, 17, 1, 10, 17, 1, 11, 17, 2, 12, 17, 2, 13, 17, 1, 14, 17, 3, 15, 20, 5, 65536, 20, 0, 65537, 17, 65536, 65538, 17, 65537, 65539, 17, 65538, 65540, 17, 65537, 65541, 17, 65538, 65542, 17, 65538, 65543, 17, 65538, 65544, 17, 65537, 65545, 17, 65537, 65546, 17, 65537, 65547, 17, 65538, 65548, 17, 65537, 65549, 17, 65537, 65550, 17, 65539, 65551, 20, 131077, 131072, 20, 0, 131073, 17, 65536, 131074, 17, 65537, 131075, 17, 65538, 131076, 17, 65538, 131077, 17, 65538, 131078, 17, 65537, 131079, 17, 65538, 131080, 17, 65537, 131081, 17, 65537, 131082, 17, 65537, 131083, 17, 65537, 131084, 17, 65537, 131085, 17, 65537, 131086, 17, 65539, 131087, 20, 65541, 196608, 20, 0, 196609, 17, 131072, 196610, 17, 131073, 196611, 17, 131073, 196612, 17, 131073, 196613, 17, 131074, 196614, 17, 131074, 196615, 17, 131073, 196616, 17, 131074, 196617, 17, 131073, 196618, 17, 131074, 196619, 17, 131073, 196620, 17, 131074, 196621, 17, 131074, 196622, 17, 131075, 196623, 20, 65541, 262144, 20, 0, 262159, 20, 131077, 327680, 20, 0, 327695, 20, 65541, 393216, 20, 0, 393231, 20, 131077, 458752, 20, 0, 458767, 20, 131077, 524288, 20, 196608, 524289, 20, 196610, 524290, 20, 196610, 524291, 20, 196610, 524292, 20, 196610, 524293, 20, 196610, 524294, 20, 196612, 524296, 20, 196611, 524297, 20, 196612, 524298, 20, 196612, 524299, 20, 196612, 524300, 20, 196610, 524301, 20, 196610, 524302, 20, 196612, 524303, 20, 196613, 589830, 20, 65536, 589832, 20, 131077, 655366, 20, 131072, 655368, 20, 131077, 720902, 20, 131072, 720904, 20, 131077 )
+
+[node name="YSort2" type="YSort" parent="."]
+
+[node name="YSort" type="YSort" parent="YSort2"]
+
+[node name="Player" parent="YSort2/YSort" instance=ExtResource( 3 )]
+position = Vector2( 119.801, 176.045 )
+
+[node name="Bookshelf" parent="YSort2/YSort" instance=ExtResource( 2 )]
+position = Vector2( 32, 48 )
+
+[node name="Bookshelf2" parent="YSort2/YSort" instance=ExtResource( 2 )]
+position = Vector2( 176, 48 )
+
+[node name="Bookshelf3" parent="YSort2/YSort" instance=ExtResource( 2 )]
+position = Vector2( 144, 48 )
+
+[node name="Bookshelf4" parent="YSort2/YSort" instance=ExtResource( 2 )]
+position = Vector2( 112, 48 )
+
+[node name="FirePlace" parent="YSort2/YSort" instance=ExtResource( 7 )]
+position = Vector2( 208, 40 )
+
+[node name="Merchant" parent="YSort2/YSort" instance=ExtResource( 5 )]
+position = Vector2( 128.387, 67.6805 )
+
+[node name="Cupboard_Large" parent="YSort2/YSort" instance=ExtResource( 6 )]
+position = Vector2( 104, 80 )
+
+[node name="Cupboard_Large2" parent="YSort2/YSort" instance=ExtResource( 6 )]
+position = Vector2( 136, 80 )
+
+[node name="Cupboard_Large3" parent="YSort2/YSort" instance=ExtResource( 6 )]
+position = Vector2( 168, 80 )
+
+[node name="small_objects" type="Node2D" parent="YSort2"]
+position = Vector2( 85.3232, 81.5701 )
+
+[node name="Books" type="Sprite" parent="YSort2/small_objects"]
+texture = ExtResource( 8 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 16, 16 )
+
+[node name="Books2" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -5.33838, -3.97762 )
+texture = ExtResource( 8 )
+region_enabled = true
+region_rect = Rect2( 32.01, 0, 16, 16 )
+
+[node name="Books3" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -7.85056, 0.418701 )
+texture = ExtResource( 8 )
+region_enabled = true
+region_rect = Rect2( 16, 16, 16, 16 )
+
+[node name="Books4" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( 59.8194, -9.51286 )
+texture = ExtResource( 8 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 16, 16 )
+
+[node name="Candle" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( 29.4139, -11.9361 )
+texture = ExtResource( 10 )
+
+[node name="Candle2" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( 71.9576, -11.3393 )
+texture = ExtResource( 10 )
+
+[node name="Candle3" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( 65.1464, -53.4914 )
+texture = ExtResource( 10 )
+
+[node name="Candle4" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( 19.91, -53.3629 )
+texture = ExtResource( 10 )
+
+[node name="Candle5" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -40.4908, -53.3629 )
+texture = ExtResource( 10 )
+
+[node name="Candle6" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -40.1053, 20.9173 )
+texture = ExtResource( 10 )
+
+[node name="Chair3" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -41.3232, 10.4299 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 48, 0, 16, 16 )
+
+[node name="Chair4" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -25.3232, 10.4299 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 48, 0, 16, 16 )
+
+[node name="Chair5" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -53.3232, 26.4299 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 16, 0, 16, 16 )
+
+[node name="Table_Large" parent="YSort2/small_objects" instance=ExtResource( 11 )]
+position = Vector2( -33.0522, 31.4099 )
+
+[node name="Chair" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -25.3232, 34.4299 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 32, 0, 16, 16 )
+
+[node name="Chair2" type="Sprite" parent="YSort2/small_objects"]
+position = Vector2( -41.3232, 34.4299 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 32, 0, 16, 16 )
+
+[node name="SceneTrigger" type="Area2D" parent="."]
+position = Vector2( 120, 190.056 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTrigger"]
+shape = SubResource( 1 )
+[connection signal="area_entered" from="SceneTrigger" to="." method="_on_SceneTrigger_area_entered"]

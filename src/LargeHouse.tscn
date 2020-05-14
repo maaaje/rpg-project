@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/housing/bighouses.png" type="Texture" id=1]
+[ext_resource path="res://src/LargeHouse.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 6, 1 )
+
+[node name="LargeHouse" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 160, 96 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, 0, 160, 0, 160, 94, 152, 94, 152, 96, 150, 96, 150, 86, 158, 86, 158, 60, 150, 60, 150, 58, 138, 58, 138, 60, 116, 60, 116, 86, 138, 86, 138, 96, 136, 96, 136, 94, 114, 94, 114, 64, 0, 64 )
+
+[node name="SceneTrigger" type="Area2D" parent="."]
+position = Vector2( 144, 59 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTrigger"]
+shape = SubResource( 1 )
+[connection signal="area_entered" from="SceneTrigger" to="." method="_on_SceneTrigger_area_entered"]

@@ -1,0 +1,132 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/character/player/playeranimations.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+signal shoot_item()
+
+onready var spell_spawn_position = $Sprite/Position2D
+
+const ACCEL = 550
+const FRICTION = 550
+const MAX_SPEED = 40
+const MAX_SPEED_SPRINT = 60
+const fireball_scene = preload(\"res://src/Fireball.tscn\")
+
+enum {
+	MOVE,
+	ROLL,
+	ATTACK
+}
+
+var state = MOVE
+var velocity = Vector2.ZERO
+var shoot_item = null
+
+
+func _physics_process(delta):
+	match state:
+		MOVE:
+			move_state(delta)
+		
+		ROLL:
+			pass
+			
+		ATTACK:
+			attack_state(delta)	
+			
+
+
+
+func move_state(delta):
+	var input_vector = Vector2.ZERO
+	
+	input_vector.x = Input.get_action_strength(\"ui_right\") - Input.get_action_strength(\"ui_left\")
+	input_vector.y = Input.get_action_strength(\"ui_down\") - Input.get_action_strength(\"ui_up\")
+	input_vector = input_vector.normalized()
+	
+	if input_vector.x < 0:
+		$Sprite.flip_h = true
+		$Sprite/Position2D.position.x = 7
+	else:
+		$Sprite.flip_h = false
+		$Sprite/Position2D.position.x = -7
+	
+	if input_vector != Vector2.ZERO:
+		if Input.is_action_pressed(\"shift\"):
+			velocity = velocity.move_toward(input_vector * MAX_SPEED_SPRINT, ACCEL * delta)
+		else:
+			velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCEL * delta)
+	else:
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		
+	velocity = move_and_slide(velocity)
+	
+	if Input.is_action_just_pressed(\"attack\"):
+		state = ATTACK
+	
+	
+func attack_state(delta):
+	velocity = Vector2.ZERO
+	#Character soll beim Angreifen immer stehen bleiben
+	#velocity = move_and_slide(velocity)
+	#Bewegungseingaben während die Attack-Animation ausgeführt wird, sorgen sonst dafür, dass der Spieler auch nach
+	#dem Angriff noch läuft und erst durch die FRICTION abgebremst wird. Spieler soll sofort stillstehen bei Angriff
+	emit_signal(\"shoot_item\")
+	state = MOVE
+	
+func attack_animation_finished():
+	state = MOVE
+	
+func spawn_fireball():
+	if shoot_item == null:
+		shoot_item = fireball_scene.instance()
+		spell_spawn_position.add_child(shoot_item)
+		
+		
+func shoot_fireball():
+	spawn_fireball()
+	shoot_item.launch()
+	shoot_item = null 
+
+func _on_Player_shoot_item():
+	shoot_fireball()
+"
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 2.29835
+height = 3.50285
+
+[node name="Player" type="KinematicBody2D"]
+collision_mask = 14
+script = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -5 )
+texture = ExtResource( 1 )
+hframes = 5
+frame = 4
+
+[node name="Position2D" type="Position2D" parent="Sprite"]
+position = Vector2( 7, 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.775909, 0.632875 )
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 0.775909, 0.632875 )
+rotation = 1.5708
+
+[node name="SceneTriggerCollision" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 2 )
+[connection signal="shoot_item" from="." to="." method="_on_Player_shoot_item"]
