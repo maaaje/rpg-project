@@ -1,34 +1,38 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/character/player/playeranimations.png" type="Texture" id=1]
-[ext_resource path="res://src/Interface/Interface.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Stats.tscn" type="PackedScene" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
 
+# PLAYER SIGNALS
 signal shoot_item()
 
-onready var spell_spawn_position = $Sprite/Position2D
 
-const ACCEL = 550
-const FRICTION = 550
-const MAX_SPEED = 40
-const MAX_SPEED_SPRINT = 60
+# MOVEMENT VARIABLES
+export var ACCEL = 550
+export var FRICTION = 550
+export var MAX_SPEED = 40
+export var MAX_SPEED_SPRINT = 60
+var velocity = Vector2.ZERO
+
+# FIREBALL SCENE AND SPAWN POSITION
 const fireball_scene = preload(\"res://src/Fireball.tscn\")
+onready var spell_spawn_position = $Sprite/Position2D
+var shoot_item = null
 
+# ENUM STATES FOR STATE_MACHINE
 enum {
 	MOVE,
 	ROLL,
 	ATTACK
 }
-
-var health = 20
-onready var healthbar = $Camera2D/Interface/Bar/TextureProgress
-export var max_health = 20
-
 var state = MOVE
-var velocity = Vector2.ZERO
-var shoot_item = null
+
+# PLAYER STATS RELATED VARIABLES AND NODES
+onready var healthbar = $Camera2D/Interface/Bar/TextureProgress
+onready var stats = $PlayerStats
 
 
 func _physics_process(delta):
@@ -45,15 +49,9 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed(\"simulate_player_damage\"):
 		take_damage(randi()%5 +1)
 		
-func take_damage(dmg):
-	health -= dmg
-	healthbar.value = health*100/max_health
-	if health <= 0:
-		print(\"Player gestorben!\")
-		#die()
 
 
-
+# ------------------- STATE_MACHINE FOR MOVEMENT ------------------------
 func move_state(delta):
 	var input_vector = Vector2.ZERO
 	
@@ -93,20 +91,30 @@ func attack_state(delta):
 	
 func attack_animation_finished():
 	state = MOVE
-	
+
+# ------------------- FIREBALL CODE ------------------------ 
+func _on_Player_shoot_item():
+	shoot_fireball()
+
+func shoot_fireball():
+	spawn_fireball()
+	shoot_item.launch()
+	shoot_item = null 	
+
 func spawn_fireball():
 	if shoot_item == null:
 		shoot_item = fireball_scene.instance()
 		spell_spawn_position.add_child(shoot_item)
-		
-		
-func shoot_fireball():
-	spawn_fireball()
-	shoot_item.launch()
-	shoot_item = null 
 
-func _on_Player_shoot_item():
-	shoot_fireball()
+# ------------------- DAMAGE AND DEATH CODE ------------------------
+func take_damage(dmg):
+	print(\"Maximale Leben: \" + stats.max_health as String)
+	print(\"Leben vor Schaden: \" + stats.health as String)
+	stats.health -= dmg
+	print(\"Neue Leben: \" + stats.health as String)
+	
+func _on_PlayerStats_no_health():
+	print(\"Spieler gestorben\")
 "
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -119,12 +127,8 @@ script = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-
-[node name="Interface" parent="Camera2D" instance=ExtResource( 2 )]
-margin_left = -125.935
-margin_top = -69.6251
-margin_right = -125.935
-margin_bottom = -69.6251
+limit_left = 0
+limit_top = 0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -5 )
@@ -149,4 +153,9 @@ rotation = 1.5708
 
 [node name="SceneTriggerCollision" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 2 )
+
+[node name="PlayerStats" parent="." instance=ExtResource( 2 )]
+max_health = 10
+health = 10
 [connection signal="shoot_item" from="." to="." method="_on_Player_shoot_item"]
+[connection signal="no_health" from="PlayerStats" to="." method="_on_PlayerStats_no_health"]

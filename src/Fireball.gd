@@ -30,7 +30,7 @@ func launch():
 	
 	set_physics_process(true)
 	
-	var flight_timer = Timer.new()
+	flight_timer = Timer.new()
 	flight_timer.one_shot = true
 	flight_timer.wait_time = MAX_FLIGHT_TIME
 	flight_timer.autostart = true
@@ -47,4 +47,4 @@ func destroy():
 func deal_damage(collision):
 	var hit = collision.collider
 	if hit.is_in_group("enemies"):
-		hit.health -= damage
+		hit.stats.health -= damage

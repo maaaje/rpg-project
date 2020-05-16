@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/character/enemies/slime.png" type="Texture" id=1]
 [ext_resource path="res://src/Slime.gd" type="Script" id=2]
 [ext_resource path="res://src/Interface/HealthCounter.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Stats.tscn" type="PackedScene" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -45,3 +46,8 @@ margin_left = -9.94404
 margin_top = -19.8881
 margin_right = 10.056
 margin_bottom = -9.88808
+
+[node name="Stats" parent="." instance=ExtResource( 4 )]
+max_health = 10
+health = 10
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]

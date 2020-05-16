@@ -1,18 +1,13 @@
 extends KinematicBody2D
 
-const MAX_HEALTH = 20
-
 #onready var healthbar = 
 onready var healthlabel = $HealthCounter/Label
-onready var health = MAX_HEALTH
+onready var stats = $Stats
 
 
 func _process(delta):
 	#healthbar.rect_size.x = 16 * (health / MAX_HEALTH)
-	healthlabel.text = health as String
-	if health <= 0:
-		die()
-				
-func die():
+	healthlabel.text = stats.health as String
+
+func _on_Stats_no_health():
 	queue_free()
-	
