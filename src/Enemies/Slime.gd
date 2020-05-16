@@ -5,9 +5,10 @@ onready var healthlabel = $HealthCounter/Label
 onready var stats = $Stats
 
 
-func _process(delta):
+func _process(_delta):
 	#healthbar.rect_size.x = 16 * (health / MAX_HEALTH)
 	healthlabel.text = stats.health as String
 
 func _on_Stats_no_health():
 	queue_free()
+

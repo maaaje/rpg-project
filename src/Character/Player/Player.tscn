@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/character/player/playeranimations.png" type="Texture" id=1]
-[ext_resource path="res://src/Stats.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -18,7 +19,7 @@ export var MAX_SPEED_SPRINT = 60
 var velocity = Vector2.ZERO
 
 # FIREBALL SCENE AND SPAWN POSITION
-const fireball_scene = preload(\"res://src/Fireball.tscn\")
+const fireball_scene = preload(\"res://src/Spells/Fireball.tscn\")
 onready var spell_spawn_position = $Sprite/Position2D
 var shoot_item = null
 
@@ -31,9 +32,12 @@ enum {
 var state = MOVE
 
 # PLAYER STATS RELATED VARIABLES AND NODES
-onready var healthbar = $Camera2D/Interface/Bar/TextureProgress
+#onready var healthbar = $Camera2D/Interface/Bar/TextureProgress
 onready var stats = $PlayerStats
+onready var health_bar = $Bar/HealthBar
 
+func _ready():
+	$Bar.update_healthbar_maxhealth(25)
 
 func _physics_process(delta):
 	match state:
@@ -95,6 +99,7 @@ func attack_animation_finished():
 # ------------------- FIREBALL CODE ------------------------ 
 func _on_Player_shoot_item():
 	shoot_fireball()
+	print(\"Feuerball geschossen\")
 
 func shoot_fireball():
 	spawn_fireball()
@@ -111,6 +116,7 @@ func take_damage(dmg):
 	print(\"Maximale Leben: \" + stats.max_health as String)
 	print(\"Leben vor Schaden: \" + stats.health as String)
 	stats.health -= dmg
+	$Bar.update_healthbar(stats.health)
 	print(\"Neue Leben: \" + stats.health as String)
 	
 func _on_PlayerStats_no_health():
@@ -124,6 +130,7 @@ height = 3.50285
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 14
 script = SubResource( 1 )
+MAX_SPEED = 50
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -155,7 +162,12 @@ rotation = 1.5708
 shape = SubResource( 2 )
 
 [node name="PlayerStats" parent="." instance=ExtResource( 2 )]
-max_health = 10
-health = 10
+
+[node name="Bar" parent="." instance=ExtResource( 3 )]
+margin_left = -12.0
+margin_top = -16.0
+margin_right = 36.0
+margin_bottom = -8.0
+rect_scale = Vector2( 0.5, 0.5 )
 [connection signal="shoot_item" from="." to="." method="_on_Player_shoot_item"]
 [connection signal="no_health" from="PlayerStats" to="." method="_on_PlayerStats_no_health"]

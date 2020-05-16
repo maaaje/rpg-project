@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/character/enemies/slime.png" type="Texture" id=1]
-[ext_resource path="res://src/Slime.gd" type="Script" id=2]
+[ext_resource path="res://src/Enemies/Slime.gd" type="Script" id=2]
 [ext_resource path="res://src/Interface/HealthCounter.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/Stats.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -21,8 +21,8 @@ animations = [ {
 "speed": 3.0
 } ]
 
-[sub_resource type="CircleShape2D" id=4]
-radius = 6.33595
+[sub_resource type="CircleShape2D" id=5]
+radius = 6.62884
 
 [node name="Slime" type="KinematicBody2D" groups=[
 "enemies",
@@ -38,8 +38,8 @@ animation = "wobble"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -2 )
-shape = SubResource( 4 )
+position = Vector2( 0.0484943, -2.13377 )
+shape = SubResource( 5 )
 
 [node name="HealthCounter" parent="." instance=ExtResource( 3 )]
 margin_left = -9.94404

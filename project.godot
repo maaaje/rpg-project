@@ -15,13 +15,13 @@ _global_script_class_icons={
 
 [application]
 
-config/name="top-down rpg project"
-run/main_scene="res://src/TestLevel.tscn"
+config/name="project b"
+run/main_scene="res://src/Level/TestLevel.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-SceneChanger="*res://src/SceneChanger.tscn"
+SceneChanger="*res://src/Functions/SceneChanger.tscn"
 
 [display]
 

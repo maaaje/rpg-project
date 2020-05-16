@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/world/sample_world_wall.png" type="Texture" id=1]
-[ext_resource path="res://src/GrassSpritesheet.tres" type="TileSet" id=2]
-[ext_resource path="res://src/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/UI/HealthUI.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/Slime.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Environment/GrassSpritesheet.tres" type="TileSet" id=2]
+[ext_resource path="res://src/Character/Player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Interface/HealthUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Enemies/Slime.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -53,6 +53,10 @@ tile_data = PoolIntArray( -393204, 0, 0, -393203, 0, 0, -393202, 0, 0, -393201, 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 35.2329, 74.4937 )
 
+[node name="PlayerStats" parent="Player" index="4"]
+max_health = 25
+health = 25
+
 [node name="HealthUI" parent="." instance=ExtResource( 4 )]
 
 [node name="Slime" parent="." instance=ExtResource( 5 )]
@@ -64,5 +68,7 @@ frame = 1
 [node name="Stats" parent="Slime" index="3"]
 max_health = 15
 health = 15
+
+[editable path="Player"]
 
 [editable path="Slime"]
