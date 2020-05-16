@@ -1,0 +1,53 @@
+[33mcommit 12c0c433650bc3a3c027e83b60aa448d914925ec[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Sat May 16 12:55:22 2020 +0200
+
+    Interaktionen zwischen Szenen verbessert
+
+[33mcommit 9d4adca75f93ae05d162cbf53b5e1fc4e43ec997[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Thu May 14 22:19:20 2020 +0200
+
+    Demo Schaden beim Player und Healthbar Prototyp hinzugefügt.
+
+[33mcommit 0e3bc03dc9481b2f5b120fa7194a8fb8759149a0[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Thu May 14 19:16:30 2020 +0200
+
+    test-Datei gelöscht
+
+[33mcommit 59c39d6f329ff01396d9e702252e0abd995c168c[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Thu May 14 19:10:32 2020 +0200
+
+    test-datei hinzugefügt
+
+[33mcommit 80cff458dba531185df3e770a85226bd0c490711[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Thu May 14 18:13:34 2020 +0200
+
+    Test-Dateien gelöscht
+
+[33mcommit c7359bf0fb2432381f91d42986ecf15f527c4d81[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Thu May 14 18:10:29 2020 +0200
+
+    login funktion
+
+[33mcommit 3bc1b3db728223faae80040370197f48fb1282ba[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Thu May 14 18:03:30 2020 +0200
+
+    test.txt geändert
+
+[33mcommit 5c8eb43e3c595d3c8659d953add879fe924c9241[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Thu May 14 18:00:05 2020 +0200
+
+    Das hier ist ein Test-Commit.
+
+[33mcommit 5fc313486980b5f6c7c86965ce2d12b808c5b862[m
+Author: Marvin <devlog@marvintrappe.de>
+Date:   Thu May 14 17:40:08 2020 +0200
+
+    Initial commit
