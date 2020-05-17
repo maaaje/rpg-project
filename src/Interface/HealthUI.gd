@@ -10,7 +10,5 @@ func set_health(value):
 	
 func set_max_health(value):
 	max_health = max(value, 1)
-	
-func _ready():
-	pass
+
 

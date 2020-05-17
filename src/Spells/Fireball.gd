@@ -50,4 +50,3 @@ func deal_damage(collision):
 	var hit = collision.collider
 	if hit.is_in_group("enemies"):
 		hit.stats.health -= damage
-		print("enemy getroffen")

@@ -1,28 +1,48 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/character/enemies/slime.png" type="Texture" id=1]
 [ext_resource path="res://src/Enemies/Slime.gd" type="Script" id=2]
 [ext_resource path="res://src/Interface/HealthCounter.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Animations/Hurt_animation.anim" type="Animation" id=6]
+[ext_resource path="res://src/Enemies/AnimationPlayer.gd" type="Script" id=7]
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 1 )
-region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="SpriteFrames" id=3]
-animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ) ],
-"loop": true,
-"name": "wobble",
-"speed": 3.0
-} ]
-
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=4]
 radius = 6.62884
+
+[sub_resource type="Animation" id=6]
+resource_name = "Hurt"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "slime_wobble"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
 
 [node name="Slime" type="KinematicBody2D" groups=[
 "enemies",
@@ -31,23 +51,41 @@ collision_layer = 2
 collision_mask = 15
 script = ExtResource( 2 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -4 )
-frames = SubResource( 3 )
-animation = "wobble"
-playing = true
+texture = ExtResource( 1 )
+hframes = 2
+frame = 1
+region_rect = Rect2( 0, 0, 16, 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.0484943, -2.13377 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="HealthCounter" parent="." instance=ExtResource( 3 )]
-margin_left = -9.94404
-margin_top = -19.8881
-margin_right = 10.056
-margin_bottom = -9.88808
+margin_left = -10.0362
+margin_top = -24.5412
+margin_right = 9.96386
+margin_bottom = -14.5411
 
 [node name="Stats" parent="." instance=ExtResource( 4 )]
-max_health = 10
-health = 10
+max_health = 30
+health = 30
+
+[node name="Bar" parent="." instance=ExtResource( 5 )]
+margin_left = -12.3928
+margin_top = -14.0974
+margin_right = 35.6072
+margin_bottom = -6.09741
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "slime_wobble"
+anims/Hurt = SubResource( 6 )
+anims/Hurt_animation = ExtResource( 6 )
+anims/slime_wobble = SubResource( 5 )
+script = ExtResource( 7 )
+[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+[connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_AnimationPlayer_animation_finished"]

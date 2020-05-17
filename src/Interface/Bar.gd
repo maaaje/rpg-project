@@ -7,3 +7,6 @@ func update_healthbar(health):
 	
 func update_healthbar_maxhealth(max_health):
 	health_bar.max_value = max_health
+
+func _on_Stats_health_updated(health):
+	update_healthbar(health)
