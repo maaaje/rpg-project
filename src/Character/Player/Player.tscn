@@ -33,6 +33,9 @@ enum {
 }
 var state = MOVE
 onready var animation_player = $AnimationPlayer
+onready var ranged_cooldown = $RangedCooldown
+export (float) var cooldown_time_ranged = 0.5
+var shoot_ready : bool = true
 
 # PLAYER STATS RELATED VARIABLES AND NODES
 onready var stats = $Stats
@@ -52,7 +55,7 @@ func _physics_process(delta):
 			pass
 			
 		ATTACK:
-			attack_state(delta)	
+			attack_state(delta)
 			
 	if Input.is_action_just_pressed(\"simulate_player_damage\"):
 		take_damage(randi()%5 +1)
@@ -94,8 +97,15 @@ func attack_state(delta):
 	#velocity = move_and_slide(velocity)
 	#Bewegungseingaben während die Attack-Animation ausgeführt wird, sorgen sonst dafür, dass der Spieler auch nach
 	#dem Angriff noch läuft und erst durch die FRICTION abgebremst wird. Spieler soll sofort stillstehen bei Angriff
-	emit_signal(\"shoot_item\")
+	if shoot_ready == true:
+		emit_signal(\"shoot_item\")
+		shoot_ready = false
+		ranged_cooldown.wait_time = cooldown_time_ranged
+		ranged_cooldown.start()
 	state = MOVE
+
+func _on_RangedCooldown_timeout():
+	shoot_ready = true
 	
 func attack_animation_finished():
 	state = MOVE
@@ -112,7 +122,7 @@ func shoot_fireball():
 
 func spawn_fireball():
 	if shoot_item == null:
-		shoot_item = fireball_scene.instance()
+		shoot_item = Globals.projectile.instance()
 		spell_spawn_position.add_child(shoot_item)
 
 # ------------------- DAMAGE AND DEATH CODE ------------------------
@@ -125,7 +135,6 @@ func take_damage(dmg):
 	
 func _on_PlayerStats_no_health():
 	print(\"Spieler gestorben\")
-
 "
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -135,7 +144,9 @@ height = 3.50285
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 14
 script = SubResource( 1 )
-MAX_SPEED = 50
+MAX_SPEED = 70
+MAX_SPEED_SPRINT = 85
+cooldown_time_ranged = 0.3
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -187,9 +198,13 @@ margin_bottom = -17.4455
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Hurt = ExtResource( 5 )
+
+[node name="RangedCooldown" type="Timer" parent="."]
+wait_time = 0.5
 [connection signal="shoot_item" from="." to="." method="_on_Player_shoot_item"]
 [connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
 [connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
 [connection signal="no_health" from="Stats" to="." method="_on_PlayerStats_no_health"]
+[connection signal="timeout" from="RangedCooldown" to="." method="_on_RangedCooldown_timeout"]
 
 [editable path="Bar"]

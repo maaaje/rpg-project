@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/world/sample_world_wall.png" type="Texture" id=1]
 [ext_resource path="res://src/Environment/GrassSpritesheet.tres" type="TileSet" id=2]
 [ext_resource path="res://src/Character/Player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Interface/HealthUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/Enemies/Slime.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Items/PickupTest.tscn" type="PackedScene" id=6]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -54,9 +55,13 @@ tile_data = PoolIntArray( -393204, 0, 0, -393203, 0, 0, -393202, 0, 0, -393201, 
 position = Vector2( 35.2329, 74.4937 )
 
 [node name="HealthUI" parent="." instance=ExtResource( 4 )]
+visible = false
 
 [node name="Slime" parent="." instance=ExtResource( 5 )]
 position = Vector2( 107.073, 77.1145 )
+
+[node name="Node2D" parent="." instance=ExtResource( 6 )]
+position = Vector2( 62.1147, 132.443 )
 
 [editable path="Player"]
 

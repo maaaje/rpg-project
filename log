@@ -1,10 +1,28 @@
-[33mcommit 12c0c433650bc3a3c027e83b60aa448d914925ec[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+[33mcommit 9648956dd121cf1bcc4834ef5b772b3b43f318d7[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Sun May 17 19:27:15 2020 +0200
+
+    Titelbildschirm, Schadensanimation, Lebensanzeigen,...
+
+[33mcommit d3c7b9ab47ad3ca538997bc07cc24384860ae3b9[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Sat May 16 15:14:16 2020 +0200
+
+    Projektstruktur eingeführt Healthbar hinzugefügt
+
+[33mcommit d143503410d1101b8f66787483d47c15ddf52620[m
+Author: Marvin Trappe <devlog@marvintrappe.de>
+Date:   Sat May 16 12:57:45 2020 +0200
+
+    log-file erstellt
+
+[33mcommit 12c0c433650bc3a3c027e83b60aa448d914925ec[m
 Author: Marvin Trappe <devlog@marvintrappe.de>
 Date:   Sat May 16 12:55:22 2020 +0200
 
     Interaktionen zwischen Szenen verbessert
 
-[33mcommit 9d4adca75f93ae05d162cbf53b5e1fc4e43ec997[m[33m ([m[1;31morigin/master[m[33m)[m
+[33mcommit 9d4adca75f93ae05d162cbf53b5e1fc4e43ec997[m
 Author: Marvin Trappe <devlog@marvintrappe.de>
 Date:   Thu May 14 22:19:20 2020 +0200
 

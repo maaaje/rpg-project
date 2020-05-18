@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/Interface/theme/font_theme_Größe11.tres" type="Theme" id=1]
-[ext_resource path="res://src/Interface/MenuButton.gd" type="Script" id=2]
+[ext_resource path="res://src/Interface/Menu/MenuButton.gd" type="Script" id=2]
 
 [node name="MenuButton" type="Button"]
 margin_right = 136.0

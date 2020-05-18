@@ -16,12 +16,13 @@ _global_script_class_icons={
 [application]
 
 config/name="project b"
-run/main_scene="res://src/Level/TestLevel.tscn"
+run/main_scene="res://src/Interface/Menu/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 SceneChanger="*res://src/Functions/SceneChanger.tscn"
+Globals="*res://src/Functions/Globals.gd"
 
 [display]
 
