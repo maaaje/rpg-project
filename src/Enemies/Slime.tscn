@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/character/enemies/slime.png" type="Texture" id=1]
 [ext_resource path="res://src/Enemies/Slime.gd" type="Script" id=2]
@@ -8,10 +8,10 @@
 [ext_resource path="res://src/Animations/Hurt_animation.anim" type="Animation" id=6]
 [ext_resource path="res://src/Enemies/AnimationPlayer.gd" type="Script" id=7]
 
-[sub_resource type="CircleShape2D" id=4]
-radius = 6.62884
+[sub_resource type="CircleShape2D" id=1]
+radius = 6.70847
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=2]
 resource_name = "Hurt"
 length = 0.5
 tracks/0/type = "value"
@@ -27,7 +27,7 @@ tracks/0/keys = {
 "values": [ false, true, false, true, false, true ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "slime_wobble"
 length = 0.8
 loop = true
@@ -44,12 +44,32 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
+[sub_resource type="CircleShape2D" id=4]
+radius = 51.7437
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 7.27
+
 [node name="Slime" type="KinematicBody2D" groups=[
 "enemies",
 ]]
 collision_layer = 2
 collision_mask = 15
 script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -18.7758
+margin_top = -37.3938
+margin_right = 21.2242
+margin_bottom = -23.3938
+text = "STATE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( 0.0484943, -2.13377 )
+shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -4 )
@@ -58,34 +78,53 @@ hframes = 2
 frame = 1
 region_rect = Rect2( 0, 0, 16, 16 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.0484943, -2.13377 )
-shape = SubResource( 4 )
-
 [node name="HealthCounter" parent="." instance=ExtResource( 3 )]
 margin_left = -10.0362
 margin_top = -24.5412
 margin_right = 9.96386
 margin_bottom = -14.5411
 
-[node name="Stats" parent="." instance=ExtResource( 4 )]
-max_health = 30
-health = 30
-
 [node name="Bar" parent="." instance=ExtResource( 5 )]
 margin_left = -12.3928
 margin_top = -14.0974
 margin_right = 35.6072
-margin_bottom = -6.09741
+margin_bottom = -6.0974
+
+[node name="Stats" parent="." instance=ExtResource( 4 )]
+max_health = 30
+health = 30
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "slime_wobble"
-anims/Hurt = SubResource( 6 )
+anims/Hurt = SubResource( 2 )
 anims/Hurt_animation = ExtResource( 6 )
-anims/slime_wobble = SubResource( 5 )
+anims/slime_wobble = SubResource( 3 )
 script = ExtResource( 7 )
-[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
-[connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
+
+[node name="PlayerDetectionArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
+shape = SubResource( 4 )
+
+[node name="WalkState" type="Timer" parent="."]
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2( -0.0510483, -1.99083 )
+shape = SubResource( 5 )
+
+[node name="DamageTimer" type="Timer" parent="."]
 [connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]
+[connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_exited"]
+[connection signal="timeout" from="WalkState" to="." method="_on_WalkState_timeout"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_HitBox_area_entered"]
+[connection signal="area_exited" from="HitBox" to="." method="_on_HitBox_area_exited"]
+[connection signal="timeout" from="DamageTimer" to="." method="_on_DamageTimer_timeout"]

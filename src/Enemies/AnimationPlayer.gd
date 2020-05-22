@@ -1,6 +1,5 @@
 extends AnimationPlayer
 
-
 func _on_Stats_health_updated(_health):
 	play("Hurt")
 	

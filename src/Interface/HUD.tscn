@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/Interface/theme/font_theme_Größe11.tres" type="Theme" id=1]
+[ext_resource path="res://src/Interface/HUD.gd" type="Script" id=3]
+[ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Animation" id=2]
+resource_name = "change_label_green"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("CenterContainer/HBoxContainer/HP:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.2, 0.729412, 0.168627, 1 ), Color( 1, 1, 1, 1 ), Color( 0.2, 0.729412, 0.168627, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "change_label_red"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("CenterContainer/HBoxContainer/HP:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.537255, 0.117647, 0.117647, 1 ), Color( 1, 1, 1, 1 ), Color( 0.537255, 0.117647, 0.117647, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 256.0
+margin_bottom = 16.0
+color = Color( 0.207843, 0.219608, 0.486275, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -128.0
+margin_right = 128.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+margin_left = 43.0
+margin_top = 1.0
+margin_right = 212.0
+margin_bottom = 15.0
+
+[node name="LVL" type="Label" parent="CenterContainer/HBoxContainer"]
+margin_right = 39.0
+margin_bottom = 14.0
+theme = ExtResource( 1 )
+text = "LVL: 1"
+
+[node name="XP" type="Label" parent="CenterContainer/HBoxContainer"]
+margin_left = 43.0
+margin_right = 78.0
+margin_bottom = 14.0
+theme = ExtResource( 1 )
+text = "XP: X"
+
+[node name="Bar" parent="CenterContainer/HBoxContainer" instance=ExtResource( 4 )]
+margin_left = 82.0
+margin_right = 130.0
+margin_bottom = 11.0
+rect_scale = Vector2( 1, 1 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HealthBar" parent="CenterContainer/HBoxContainer/Bar" index="0"]
+rect_min_size = Vector2( 48, 8 )
+
+[node name="HP" type="Label" parent="CenterContainer/HBoxContainer"]
+margin_left = 134.0
+margin_right = 169.0
+margin_bottom = 14.0
+theme = ExtResource( 1 )
+text = "HP: X"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/change_label_green = SubResource( 2 )
+anims/change_label_red = SubResource( 1 )
+
+[editable path="CenterContainer/HBoxContainer/Bar"]

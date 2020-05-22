@@ -1,157 +1,32 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/character/player/playeranimations.png" type="Texture" id=1]
-[ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Character/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Interface/HealthCounter.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/Animations/Hurt_animation.anim" type="Animation" id=5]
+[ext_resource path="res://src/Character/Player/PlayerStats.tscn" type="PackedScene" id=6]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends KinematicBody2D
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 5, 5 )
 
-# PLAYER SIGNALS
-signal shoot_item()
-
-
-# MOVEMENT VARIABLES
-export var ACCEL = 550
-export var FRICTION = 550
-export var MAX_SPEED = 40
-export var MAX_SPEED_SPRINT = 60
-var velocity = Vector2.ZERO
-
-# FIREBALL SCENE AND SPAWN POSITION
-const fireball_scene = preload(\"res://src/Spells/Fireball.tscn\")
-onready var spell_spawn_position = $Sprite/Position2D
-var shoot_item = null
-
-# ENUM STATES FOR STATE_MACHINE
-enum {
-	MOVE,
-	ROLL,
-	ATTACK
-}
-var state = MOVE
-onready var animation_player = $AnimationPlayer
-onready var ranged_cooldown = $RangedCooldown
-export (float) var cooldown_time_ranged = 0.5
-var shoot_ready : bool = true
-
-# PLAYER STATS RELATED VARIABLES AND NODES
-onready var stats = $Stats
-onready var health_bar = $Bar
-onready var health_counter_label = $HealthCounter/Label
-
-func _ready():
-	health_bar.update_healthbar_maxhealth(stats.max_health)
-	health_counter_label.text = stats.health as String
-
-func _physics_process(delta):
-	match state:
-		MOVE:
-			move_state(delta)
-		
-		ROLL:
-			pass
-			
-		ATTACK:
-			attack_state(delta)
-			
-	if Input.is_action_just_pressed(\"simulate_player_damage\"):
-		take_damage(randi()%5 +1)
-		
-
-
-# ------------------- STATE_MACHINE FOR MOVEMENT ------------------------
-func move_state(delta):
-	var input_vector = Vector2.ZERO
-	
-	input_vector.x = Input.get_action_strength(\"ui_right\") - Input.get_action_strength(\"ui_left\")
-	input_vector.y = Input.get_action_strength(\"ui_down\") - Input.get_action_strength(\"ui_up\")
-	input_vector = input_vector.normalized()
-	
-	if input_vector.x < 0:
-		$Sprite.flip_h = true
-		$Sprite/Position2D.position.x = 7
-	else:
-		$Sprite.flip_h = false
-		$Sprite/Position2D.position.x = -7
-	
-	if input_vector != Vector2.ZERO:
-		if Input.is_action_pressed(\"shift\"):
-			velocity = velocity.move_toward(input_vector * MAX_SPEED_SPRINT, ACCEL * delta)
-		else:
-			velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCEL * delta)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-		
-	velocity = move_and_slide(velocity)
-	
-	if Input.is_action_just_pressed(\"attack\"):
-		state = ATTACK
-	
-	
-func attack_state(delta):
-	#velocity = Vector2.ZERO
-	#Character soll beim Angreifen immer stehen bleiben
-	#velocity = move_and_slide(velocity)
-	#Bewegungseingaben während die Attack-Animation ausgeführt wird, sorgen sonst dafür, dass der Spieler auch nach
-	#dem Angriff noch läuft und erst durch die FRICTION abgebremst wird. Spieler soll sofort stillstehen bei Angriff
-	if shoot_ready == true:
-		emit_signal(\"shoot_item\")
-		shoot_ready = false
-		ranged_cooldown.wait_time = cooldown_time_ranged
-		ranged_cooldown.start()
-	state = MOVE
-
-func _on_RangedCooldown_timeout():
-	shoot_ready = true
-	
-func attack_animation_finished():
-	state = MOVE
-
-# ------------------- FIREBALL CODE ------------------------ 
-func _on_Player_shoot_item():
-	shoot_fireball()
-	print(\"Feuerball geschossen\")
-
-func shoot_fireball():
-	spawn_fireball()
-	shoot_item.launch()
-	shoot_item = null 	
-
-func spawn_fireball():
-	if shoot_item == null:
-		shoot_item = Globals.projectile.instance()
-		spell_spawn_position.add_child(shoot_item)
-
-# ------------------- DAMAGE AND DEATH CODE ------------------------
-func take_damage(dmg):
-	print(\"Maximale Leben: \" + stats.max_health as String)
-	print(\"Leben vor Schaden: \" + stats.health as String)
-	stats.health -= dmg
-	animation_player.play(\"Hurt\")
-	print(\"Neue Leben: \" + stats.health as String)
-	
-func _on_PlayerStats_no_health():
-	print(\"Spieler gestorben\")
-"
-
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 2.29835
-height = 3.50285
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 5, 5 )
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 14
-script = SubResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 MAX_SPEED = 70
 MAX_SPEED_SPRINT = 85
 cooldown_time_ranged = 0.3
 
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-limit_left = 0
-limit_top = 0
+[node name="Position2D" type="Position2D" parent="."]
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -5 )
@@ -159,29 +34,24 @@ texture = ExtResource( 1 )
 hframes = 5
 frame = 4
 
-[node name="Position2D" type="Position2D" parent="Sprite"]
-position = Vector2( 7, 4 )
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.775909, 0.632875 )
+position = Vector2( 0, -3 )
 rotation = 1.5708
-shape = SubResource( 2 )
+shape = SubResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2( 0.775909, 0.632875 )
 rotation = 1.5708
 
 [node name="SceneTriggerCollision" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 2 )
-
-[node name="Stats" parent="." instance=ExtResource( 2 )]
-max_health = 50
-health = 50
+position = Vector2( -3.63287, 0.775922 )
+shape = SubResource( 4 )
 
 [node name="Bar" parent="." instance=ExtResource( 3 )]
+visible = false
 margin_left = -12.0369
 margin_top = -17.017
 margin_right = 55.9631
@@ -191,6 +61,7 @@ margin_bottom = -1.01698
 margin_bottom = 16.0
 
 [node name="HealthCounter" parent="." instance=ExtResource( 4 )]
+visible = false
 margin_left = -9.84457
 margin_top = -27.4455
 margin_right = 10.1554
@@ -201,10 +72,9 @@ anims/Hurt = ExtResource( 5 )
 
 [node name="RangedCooldown" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="PlayerStats" parent="." instance=ExtResource( 6 )]
 [connection signal="shoot_item" from="." to="." method="_on_Player_shoot_item"]
-[connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
-[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
-[connection signal="no_health" from="Stats" to="." method="_on_PlayerStats_no_health"]
 [connection signal="timeout" from="RangedCooldown" to="." method="_on_RangedCooldown_timeout"]
 
 [editable path="Bar"]
