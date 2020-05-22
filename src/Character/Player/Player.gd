@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # PLAYER SIGNALS
-signal shoot_item()
+signal shoot_item
 
 
 # MOVEMENT VARIABLES

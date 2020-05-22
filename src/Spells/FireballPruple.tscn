@@ -27,3 +27,7 @@ animations = [ {
 
 [node name="Sprite" parent="." index="0"]
 frames = SubResource( 4 )
+frame = 2
+
+[node name="Light2D" parent="." index="2"]
+color = Color( 0.686275, 0, 1, 1 )

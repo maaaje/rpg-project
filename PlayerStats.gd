@@ -62,4 +62,5 @@ func level_up():
 	emit_signal("leveled_up", level)
 	experience_required = get_required_experience(level + 1)
 	self.vitality += 1
+	self.health = max_health
 	
