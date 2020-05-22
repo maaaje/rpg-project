@@ -1,4 +1,4 @@
 # rpg-project
-top down RPG-Projekt
+top down RPG-project
 
 a small dungeon-crawler / rpg project that im working on in order to learn game development in the godot engine (currently using godot v. 3.2.1).
