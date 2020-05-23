@@ -9,7 +9,7 @@
 [ext_resource path="res://assets/effects/light.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5, 5 )
+extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 5, 5 )
@@ -22,7 +22,7 @@ __meta__ = {
 }
 MAX_SPEED = 70
 MAX_SPEED_SPRINT = 85
-cooldown_time_ranged = 0.3
+cooldown_time_ranged = 0.2
 
 [node name="Position2D" type="Position2D" parent="."]
 __meta__ = {

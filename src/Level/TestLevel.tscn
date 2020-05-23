@@ -220,7 +220,7 @@ damage = 5
 position = Vector2( 208.303, 232.04 )
 damage = 5
 
-[node name="AnimationPlayer" parent="Slime2" index="6"]
+[node name="AnimationPlayer" parent="Slime2" index="7"]
 anims/Hurt = SubResource( 5 )
 anims/Hurt_animation = SubResource( 6 )
 anims/slime_wobble = SubResource( 7 )
@@ -229,7 +229,7 @@ anims/slime_wobble = SubResource( 7 )
 position = Vector2( -139.399, -40.84 )
 damage = 5
 
-[node name="AnimationPlayer" parent="Slime3" index="6"]
+[node name="AnimationPlayer" parent="Slime3" index="7"]
 anims/Hurt = SubResource( 8 )
 anims/Hurt_animation = SubResource( 9 )
 anims/slime_wobble = SubResource( 10 )
@@ -238,7 +238,7 @@ anims/slime_wobble = SubResource( 10 )
 position = Vector2( -131.638, 206.047 )
 damage = 5
 
-[node name="AnimationPlayer" parent="Slime4" index="6"]
+[node name="AnimationPlayer" parent="Slime4" index="7"]
 anims/Hurt = SubResource( 11 )
 anims/Hurt_animation = SubResource( 12 )
 anims/slime_wobble = SubResource( 13 )

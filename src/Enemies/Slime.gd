@@ -15,6 +15,11 @@ var player_area = null
 
 onready var hit_box = $HitBox
 export var damage = 0
+
+onready var shoot_timer = $ShootTimer
+export var ranged_cooldown = 0
+var can_shoot = true
+onready var projectile_spawn_position = $ProjectileSpawnPosition
 onready var xp_reward = (randi() % 3 + 1) * 7
 
 enum{
@@ -59,6 +64,27 @@ func _on_WalkState_timeout():
 func chase_player():
 	velocity = player.global_position - global_position
 	velocity = move_and_slide(velocity.normalized() * SPEED)
+	try_shoot()
+		
+func try_shoot():
+	if can_shoot:
+		shoot_projectile((player.global_position - global_position).normalized())
+		can_shoot = false
+		shoot_timer.wait_time = ranged_cooldown
+		shoot_timer.start()
+		state = CHASE
+	elif can_shoot == false:
+		state = CHASE
+	
+		
+func shoot_projectile(velocity):
+	var projectile = Globals.enemy_projectile.instance()
+	projectile_spawn_position.add_child(projectile)
+	projectile.launch(velocity)
+	state = CHASE
+
+func _on_ShootTimer_timeout():
+	can_shoot = true
 
 func _on_PlayerDetectionArea_body_entered(body):
 	if body.name == "Player":
@@ -66,8 +92,10 @@ func _on_PlayerDetectionArea_body_entered(body):
 		state = CHASE
 
 func _on_PlayerDetectionArea_body_exited(body):
-	state = WANDER
-
+	if body.name == "Player":
+		state = WANDER
+	else:
+		pass
 
 func _on_Stats_no_health():
 	queue_free()
@@ -76,7 +104,6 @@ func _on_Stats_no_health():
 func _on_HitBox_area_entered(area):
 	if area.get_parent().name == "Player":
 		player_area = area
-		print("Schaden genommen!")
 		area.get_parent().take_damage(damage)
 		$DamageTimer.start()
 	else:
@@ -88,3 +115,5 @@ func _on_DamageTimer_timeout():
 
 func _on_HitBox_area_exited(area):
 	$DamageTimer.stop()
+
+

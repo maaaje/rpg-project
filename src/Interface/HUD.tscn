@@ -4,11 +4,11 @@
 [ext_resource path="res://src/Interface/HUD.gd" type="Script" id=3]
 [ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=4]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "change_label_green"
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("CenterContainer/HBoxContainer/HP:modulate")
+tracks/0/path = NodePath("HBoxContainer/HealthUI/HP:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -20,12 +20,11 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.2, 0.729412, 0.168627, 1 ), Color( 1, 1, 1, 1 ), Color( 0.2, 0.729412, 0.168627, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "change_label_red"
+[sub_resource type="Animation" id=2]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("CenterContainer/HBoxContainer/HP:modulate")
+tracks/0/path = NodePath("HBoxContainer/HealthUI/HP:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -48,56 +47,57 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -128.0
-margin_right = 128.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 256.0
 margin_bottom = 16.0
-rect_min_size = Vector2( 256, 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
-margin_left = 43.0
+[node name="HealthUI" type="HBoxContainer" parent="HBoxContainer"]
+margin_right = 126.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HP" type="Label" parent="HBoxContainer/HealthUI"]
 margin_top = 1.0
-margin_right = 212.0
+margin_right = 35.0
 margin_bottom = 15.0
-
-[node name="LVL" type="Label" parent="CenterContainer/HBoxContainer"]
-margin_right = 39.0
-margin_bottom = 14.0
 theme = ExtResource( 1 )
-text = "LVL: 1"
+text = "HP: X"
 
-[node name="XP" type="Label" parent="CenterContainer/HBoxContainer"]
-margin_left = 43.0
-margin_right = 78.0
-margin_bottom = 14.0
-theme = ExtResource( 1 )
-text = "XP: X"
-
-[node name="Bar" parent="CenterContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 82.0
-margin_right = 130.0
-margin_bottom = 11.0
+[node name="Bar" parent="HBoxContainer/HealthUI" instance=ExtResource( 4 )]
+margin_left = 39.0
+margin_top = 4.0
+margin_right = 87.0
+margin_bottom = 12.0
 rect_scale = Vector2( 1, 1 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="HealthBar" parent="CenterContainer/HBoxContainer/Bar" index="0"]
-rect_min_size = Vector2( 48, 8 )
+[node name="LevelUI" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 130.0
+margin_right = 256.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="HP" type="Label" parent="CenterContainer/HBoxContainer"]
-margin_left = 134.0
-margin_right = 169.0
-margin_bottom = 14.0
+[node name="LVL" type="Label" parent="HBoxContainer/LevelUI"]
+margin_top = 1.0
+margin_right = 39.0
+margin_bottom = 15.0
 theme = ExtResource( 1 )
-text = "HP: X"
+text = "LVL: 1"
+
+[node name="XP" type="Label" parent="HBoxContainer/LevelUI"]
+margin_left = 43.0
+margin_top = 1.0
+margin_right = 78.0
+margin_bottom = 15.0
+theme = ExtResource( 1 )
+text = "XP: X"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/change_label_green = SubResource( 2 )
-anims/change_label_red = SubResource( 1 )
-
-[editable path="CenterContainer/HBoxContainer/Bar"]
+anims/change_label_green = SubResource( 1 )
+anims/change_label_red = SubResource( 2 )

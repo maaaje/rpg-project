@@ -3,10 +3,10 @@ extends CanvasLayer
 onready var player_stats = get_node("../Player/PlayerStats")
 
 onready var animation_player = $AnimationPlayer
-onready var health_bar = $CenterContainer/HBoxContainer/Bar
-onready var health_label = $CenterContainer/HBoxContainer/HP
-onready var xp_label = $CenterContainer/HBoxContainer/XP
-onready var lvl_label = $CenterContainer/HBoxContainer/LVL
+onready var health_bar = $HBoxContainer/HealthUI/Bar
+onready var health_label = $HBoxContainer/HealthUI/HP
+onready var xp_label = $HBoxContainer/LevelUI/XP
+onready var lvl_label = $HBoxContainer/LevelUI/LVL
 
 func _ready():
 	player_stats.connect("xp_updated", self, "on_xp_updated")

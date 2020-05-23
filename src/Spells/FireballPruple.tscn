@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/effects/fireball_pruple_animated.png" type="Texture" id=1]
 [ext_resource path="res://src/Spells/Fireball.tscn" type="PackedScene" id=2]
@@ -23,6 +23,42 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.407407, 1 )
+colors = PoolColorArray( 0.390774, 0.261719, 1, 1, 0.516521, 0.0273438, 1, 1, 0.995575, 0.09375, 1, 1 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
+min_value = -200.0
+max_value = 200.0
+_data = [ Vector2( 0, -27.7273 ), 0.0, 0.0, 0, 0, Vector2( 1, 70.4545 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="Curve" id=9]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.673864 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=10]
+curve = SubResource( 9 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+emission_shape = 1
+emission_sphere_radius = 2.0
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+spread = 15.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 15.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel_curve = SubResource( 8 )
+scale = 1.25
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 6 )
+
 [node name="Fireball" instance=ExtResource( 2 )]
 
 [node name="Sprite" parent="." index="0"]
@@ -31,3 +67,7 @@ frame = 2
 
 [node name="Light2D" parent="." index="2"]
 color = Color( 0.686275, 0, 1, 1 )
+
+[node name="Particles2D" parent="." index="3"]
+lifetime = 0.75
+process_material = SubResource( 11 )
