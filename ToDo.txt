@@ -1,0 +1,4 @@
+konkrete todos:
+- wesentliche funktionen des slimes in separates enemy klasse übertagen, von welcher der slime erben kann
+	- hierdurch wird das erstellen zukünftiger gegner einfacher
+	- eventuell zwei klassen für melee und ranged enemy? alternativ zwei funktionen melee_attack() und ranged_attack()
