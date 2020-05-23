@@ -19,6 +19,11 @@ export var damage = 0
 onready var shoot_timer = $ShootTimer
 export var ranged_cooldown = 0
 var can_shoot = true
+
+export var special_attack_chace : int = 3
+var special_attack_directions = [Vector2(1, 0), Vector2(1, -1), Vector2(0, -1), Vector2(-1, -1), 
+								Vector2(-1, 0), Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1)]
+
 onready var projectile_spawn_position = $ProjectileSpawnPosition
 onready var xp_reward = (randi() % 3 + 1) * 7
 
@@ -68,13 +73,20 @@ func chase_player():
 		
 func try_shoot():
 	if can_shoot:
-		shoot_projectile((player.global_position - global_position).normalized())
-		can_shoot = false
-		shoot_timer.wait_time = ranged_cooldown
-		shoot_timer.start()
-		state = CHASE
-	elif can_shoot == false:
-		state = CHASE
+		var roll = randi() % special_attack_chace
+		if roll == 1:
+			for i in range(8): # (1, 0) (1, -1) (0, -1) (-1, -1) (-1, 0) (-1, 1) (0, -1) (1, 1)
+				var shoot_direction = special_attack_directions[i]
+				shoot_projectile(shoot_direction)
+			can_shoot = false
+			shoot_timer.wait_time = ranged_cooldown
+			shoot_timer.start()
+		else:
+			shoot_projectile((player.global_position - global_position).normalized())
+			can_shoot = false
+			shoot_timer.wait_time = ranged_cooldown
+			shoot_timer.start()
+			
 	
 		
 func shoot_projectile(velocity):
@@ -115,5 +127,3 @@ func _on_DamageTimer_timeout():
 
 func _on_HitBox_area_exited(area):
 	$DamageTimer.stop()
-
-

@@ -2,9 +2,9 @@ extends KinematicBody2D
 class_name Projectile
 
 export var SHOOT_VELOCITY : float = 1.5
-const MAX_FLIGHT_TIME : float = 1.0
+const MAX_FLIGHT_TIME : float = 2.0
 
-var damage = 5 + randi() % 2 + 1 #macht 5-7 Schaden
+export var damage = 5
 
 var velocity = Vector2.ZERO
 var flight_timer = null
@@ -40,7 +40,8 @@ func launch(direction):
 	add_child(flight_timer)
 
 func on_impact(collision):
-#	deal_damage(collision)
+	if collision.collider.name == "Player":
+		collision.collider.take_damage(damage)
 	queue_free()
 
 func destroy():
