@@ -1,4 +1,15 @@
 konkrete todos:
+23.05.2020:
 - wesentliche funktionen des slimes in separates enemy klasse übertagen, von welcher der slime erben kann
 	- hierdurch wird das erstellen zukünftiger gegner einfacher
-	- eventuell zwei klassen für melee und ranged enemy? alternativ zwei funktionen melee_attack() und ranged_attack()
+		stand 26.06.2020:
+		- wesentliche funktionen: state-machine: chase_player, idle; melee_attack, ranged_attack, cooldowns (timer), give_xp, drop_item, drop_gold
+	- fehlen noch: give_xp, drop_item, drop_gold, take_damage
+	- damage logik von feuerball.gd in enemyclass verlagern
+		- deal_damage() funktion in feuerball.gd greift auf fremdes objekt zu und und ändert dessen eigenschaften (stats.health)
+		- besser: in feuerball.gd wird überprüft, ob das getroffene element teil der group enemies ist und die take_damage(amount) funktion des jeweiligen enemies wird gecallt
+			- if collision.collider.is_in_group("enemies"):
+				collision.collider.take_damage(damage)
+		- eventuell sind dadurch zukünftig sogar schadenstypen möglich -> take_damage(damage, damage_type)
+		- dann könnten gegner auf verschiedene schadenstypen empfindlicher oder resistenter reagieren!
+
