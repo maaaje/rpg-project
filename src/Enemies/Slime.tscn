@@ -5,6 +5,7 @@
 [ext_resource path="res://src/Interface/HealthCounter.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Functions/PlayerDetectionArea.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Enemies/AnimationPlayer.gd" type="Script" id=7]
 
 [sub_resource type="OccluderPolygon2D" id=1]
@@ -43,9 +44,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 0, 1 ]
 }
-
-[sub_resource type="CircleShape2D" id=5]
-radius = 73.0835
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 7.27
@@ -111,10 +109,7 @@ anims/Hurt = SubResource( 3 )
 anims/slime_wobble = SubResource( 4 )
 script = ExtResource( 7 )
 
-[node name="PlayerDetectionArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
-shape = SubResource( 5 )
+[node name="PlayerDetectionArea" parent="." instance=ExtResource( 6 )]
 
 [node name="WalkState" type="Timer" parent="."]
 
@@ -129,13 +124,11 @@ shape = SubResource( 6 )
 [node name="DamageTimer" type="Timer" parent="."]
 
 [node name="ShootTimer" type="Timer" parent="."]
-[connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
 [connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
 [connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]
-[connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_exited"]
 [connection signal="timeout" from="WalkState" to="." method="_on_WalkState_timeout"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_HitBox_area_entered"]
 [connection signal="area_exited" from="HitBox" to="." method="_on_HitBox_area_exited"]

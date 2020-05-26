@@ -20,8 +20,10 @@ enum {
 }
 
 onready var stats = $Stats
+onready var player_detection_area : Area2D = $PlayerDetectionArea
 
 #fighting
+var player = null
 export var fighting_type : String = "" #"ranged" "melee" oder "ranged_and_melee"
 
 export var ranged_damage = 1
@@ -40,6 +42,13 @@ var velocity = Vector2.ZERO
 export var ACCEL = 1
 export var MAX_SPEED = 1
 export var FRICTION = 1
+
+
+
+
+func detect_player(body):
+	player = body
+	state = CHASE
 
 func _physics_process(delta):
 	match state:
@@ -60,7 +69,9 @@ func chase_player():
 		melee_attack_timer = Timer.new()
 		melee_attack_timer.wait_time = melee_attack_speed
 		melee_attack_timer.connect("timeout", self, melee_attack())
-	pass
+	
+	velocity = player.global_position - global_position
+	velocity = move_and_slide(velocity.normalized() * move_speed)
 
 func ranged_attack():
 	pass
