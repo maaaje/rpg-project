@@ -68,6 +68,7 @@ occluder = SubResource( 1 )
 [node name="ProjectileSpawnPosition" type="Position2D" parent="."]
 
 [node name="Label" type="Label" parent="."]
+visible = false
 margin_left = -18.7758
 margin_top = -37.3938
 margin_right = 21.2242
@@ -129,8 +130,8 @@ shape = SubResource( 6 )
 
 [node name="ShootTimer" type="Timer" parent="."]
 [connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
-[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
 [connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]

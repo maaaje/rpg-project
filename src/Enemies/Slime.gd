@@ -10,7 +10,7 @@ onready var walk_timer = $WalkState
 var walk_ended = true
 var velocity = Vector2.ZERO
 
-var player = null
+onready var player = null
 var player_area = null
 
 onready var hit_box = $HitBox
@@ -111,7 +111,7 @@ func _on_PlayerDetectionArea_body_exited(body):
 
 func _on_Stats_no_health():
 	queue_free()
-	get_node("../Player/PlayerStats").gain_experience(xp_reward)
+	get_node("../../Player/PlayerStats").gain_experience(xp_reward)
 
 func _on_HitBox_area_entered(area):
 	if area.get_parent().name == "Player":
