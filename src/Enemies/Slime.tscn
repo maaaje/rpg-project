@@ -5,7 +5,6 @@
 [ext_resource path="res://src/Interface/HealthCounter.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/Functions/PlayerDetectionArea.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Enemies/AnimationPlayer.gd" type="Script" id=7]
 
 [sub_resource type="OccluderPolygon2D" id=1]
@@ -48,6 +47,9 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=6]
 radius = 7.27
 
+[sub_resource type="CircleShape2D" id=7]
+radius = 70.7551
+
 [node name="Slime" type="KinematicBody2D" groups=[
 "enemies",
 ]]
@@ -85,6 +87,7 @@ shape = SubResource( 2 )
 position = Vector2( 0, -4 )
 texture = ExtResource( 1 )
 hframes = 4
+frame = 2
 region_rect = Rect2( 0, 0, 16, 16 )
 
 [node name="HealthCounter" parent="." instance=ExtResource( 3 )]
@@ -109,8 +112,6 @@ anims/Hurt = SubResource( 3 )
 anims/slime_wobble = SubResource( 4 )
 script = ExtResource( 7 )
 
-[node name="PlayerDetectionArea" parent="." instance=ExtResource( 6 )]
-
 [node name="WalkState" type="Timer" parent="."]
 
 [node name="HitBox" type="Area2D" parent="."]
@@ -124,9 +125,14 @@ shape = SubResource( 6 )
 [node name="DamageTimer" type="Timer" parent="."]
 
 [node name="ShootTimer" type="Timer" parent="."]
-[connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
-[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
+
+[node name="PlayerDetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
+shape = SubResource( 7 )
 [connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="WalkState" to="." method="_on_WalkState_timeout"]
@@ -134,3 +140,5 @@ shape = SubResource( 6 )
 [connection signal="area_exited" from="HitBox" to="." method="_on_HitBox_area_exited"]
 [connection signal="timeout" from="DamageTimer" to="." method="_on_DamageTimer_timeout"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]
+[connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_exited"]

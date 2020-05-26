@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Projectile",
 "language": "GDScript",
 "path": "res://src/Spells/Projectile.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "enemy",
+"language": "GDScript",
+"path": "res://enemy.gd"
 } ]
 _global_script_class_icons={
-"Projectile": ""
+"Projectile": "",
+"enemy": ""
 }
 
 [application]
