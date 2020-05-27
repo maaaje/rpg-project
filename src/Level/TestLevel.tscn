@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/world/sample_world_wall.png" type="Texture" id=1]
 [ext_resource path="res://src/Enemies/TestEnemy.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Character/Player/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/Enemies/Slime.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Items/PickupTest.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Functions/Camera.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/Interface/HUD.tscn" type="PackedScene" id=8]
@@ -80,47 +79,15 @@ position = Vector2( 83.5276, 107.793 )
 
 [node name="Camera" parent="." instance=ExtResource( 7 )]
 visible = false
+current = false
 
 [node name="HUD" parent="." instance=ExtResource( 8 )]
 
 [node name="Slimes" type="Node2D" parent="."]
 
-[node name="Slime2" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( 208.303, 232.04 )
-damage = 5
-
-[node name="Slime3" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( -139.399, -40.84 )
-damage = 5
-
-[node name="Slime4" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( -131.638, 206.047 )
-damage = 5
-
-[node name="Slime5" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( -151.145, 81.2017 )
-damage = 5
-
-[node name="Slime7" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( 203.396, -29.9886 )
-damage = 5
-
-[node name="Slime8" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( 65.3834, -58.2738 )
-damage = 5
-
-[node name="Slime9" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( -97.9883, 116.314 )
-damage = 5
-
-[node name="Slime6" parent="Slimes" instance=ExtResource( 5 )]
-position = Vector2( -29.7135, 218.727 )
-damage = 5
-
-[node name="TestEnemy" parent="Slimes" instance=ExtResource( 2 )]
-position = Vector2( 153.961, 93.2606 )
-fighting_type = "ranged"
-ranged_attack_speed = 2
+[node name="TestEnemy9" parent="Slimes" instance=ExtResource( 2 )]
+position = Vector2( 174.615, 73.275 )
+projectile_speed_multiplier = 1.5
 idle_movement_time = 3
 move_speed = 30
 ACCEL = 10

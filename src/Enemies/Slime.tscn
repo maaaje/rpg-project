@@ -44,10 +44,10 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="CircleShape2D" id=5]
 radius = 7.27
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=6]
 radius = 70.7551
 
 [node name="Slime" type="KinematicBody2D" groups=[
@@ -120,7 +120,7 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 position = Vector2( -0.0510483, -1.99083 )
-shape = SubResource( 6 )
+shape = SubResource( 5 )
 
 [node name="DamageTimer" type="Timer" parent="."]
 
@@ -129,10 +129,10 @@ shape = SubResource( 6 )
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
-shape = SubResource( 7 )
-[connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
-[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
+shape = SubResource( 6 )
 [connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
+[connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="WalkState" to="." method="_on_WalkState_timeout"]

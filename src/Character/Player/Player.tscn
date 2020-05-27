@@ -82,6 +82,9 @@ texture_scale = 2.0
 color = Color( 1, 0.752941, 0.368627, 1 )
 energy = 0.75
 shadow_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
 [connection signal="shoot_item" from="." to="." method="_on_Player_shoot_item"]
 [connection signal="timeout" from="RangedCooldown" to="." method="_on_RangedCooldown_timeout"]
 

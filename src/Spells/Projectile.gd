@@ -19,7 +19,7 @@ func _physics_process(delta):
 	if collision != null:
 		on_impact(collision)
 
-func launch(direction):
+func launch(direction, speed_multiplier = 1):
 	var temp = global_transform
 	var scene = get_tree().current_scene
 	
@@ -28,7 +28,7 @@ func launch(direction):
 	global_transform = temp
 	
 	look_at(get_global_mouse_position())
-	velocity = SHOOT_VELOCITY * direction.normalized()
+	velocity = SHOOT_VELOCITY * direction.normalized() * speed_multiplier
 	
 	set_physics_process(true)
 	
@@ -38,6 +38,7 @@ func launch(direction):
 	flight_timer.autostart = true
 	flight_timer.connect("timeout", self, "destroy")
 	add_child(flight_timer)
+
 
 func on_impact(collision):
 	if collision.collider.name == "Player":
