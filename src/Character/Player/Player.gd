@@ -59,11 +59,8 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("xp-test"):
 		$PlayerStats.gain_experience(5)	
 
-
 # ------------------- STATE_MACHINE FOR MOVEMENT ------------------------
-func move_state(delta):
-	var animation_to_play = ""
-	
+func move_state(delta):	
 	if velocity == Vector2.ZERO:
 		if not animation_player.get_current_animation() == "Hurt":
 			animation_player.stop()
@@ -103,7 +100,7 @@ func move_state(delta):
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
 	
-func attack_state(delta):
+func attack_state(_delta):
 	#velocity = Vector2.ZERO
 	#Character soll beim Angreifen immer stehen bleiben
 	#velocity = move_and_slide(velocity)
@@ -145,7 +142,3 @@ func take_damage(dmg):
 func _on_PlayerStats_no_health():
 	print("Spieler gestorben")
 
-
-func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name =="Hurt":
-		print("Schadensanimation abgespielt")

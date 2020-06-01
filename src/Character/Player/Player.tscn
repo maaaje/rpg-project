@@ -107,7 +107,6 @@ shadow_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 [connection signal="shoot_item" from="." to="." method="_on_Player_shoot_item"]
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="RangedCooldown" to="." method="_on_RangedCooldown_timeout"]
 
 [editable path="Bar"]

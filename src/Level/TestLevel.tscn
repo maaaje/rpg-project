@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/world/sample_world_wall.png" type="Texture" id=1]
 [ext_resource path="res://src/Enemies/Slime.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Character/Player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Items/LootChest.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Enemies/BlueEye.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Items/PickupTest.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Functions/Camera.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/Interface/HUD.tscn" type="PackedScene" id=8]
@@ -121,5 +122,14 @@ move_speed = 30
 ACCEL = 10
 MAX_SPEED = 30
 FRICTION = 10
+
+[node name="BlueEye" parent="." instance=ExtResource( 5 )]
+position = Vector2( -177.345, 59.32 )
+fighting_type = "ranged"
+ranged_damage = 5
+projectile_speed_multiplier = 1.1
+ranged_attack_speed = 0.8
+ranged_attack_range = 60
+move_speed = 45
 
 [editable path="Player"]

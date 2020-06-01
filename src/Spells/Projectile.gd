@@ -14,7 +14,7 @@ func _ready():
 	set_physics_process(false)
 	
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var collision = move_and_collide(velocity)
 	if collision != null:
 		on_impact(collision)

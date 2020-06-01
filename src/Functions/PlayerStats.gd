@@ -45,8 +45,8 @@ func get_health():
 	return health
 
 # ------------------ leveling system ---------------------- #
-func get_required_experience(level):
-	return round(pow(level, 1.8) + level * 4 + 30)
+func get_required_experience(lvl):
+	return round(pow(lvl, 1.8) + lvl * 4 + 30)
 	
 func gain_experience(amount):
 	experience_total += amount
@@ -63,4 +63,5 @@ func level_up():
 	experience_required = get_required_experience(level + 1)
 	self.vitality += 1
 	self.health = max_health
+	
 	

@@ -27,10 +27,10 @@ func _on_Area2D_body_entered(body):
 		opened = true
 		give_chest_loot()
 
-func spawn_mimic(chest_style : int = 0):
+func spawn_mimic(mimic_style : int = 0):
 	var mimic_chest = mimic_scene.instance()
 	mimic_chest.global_position = global_position
-	mimic_chest.chest_style = chest_style
+	mimic_chest.chest_style = mimic_style
 	get_parent().add_child(mimic_chest)
 	mimic_chest.state = "CHASE"
 	queue_free()

@@ -43,6 +43,7 @@ onready var anim : AnimationPlayer = $AnimationPlayer
 #fighting
 var player = null
 export var fighting_type : String = "" #"ranged" "melee" oder "ranged_and_melee"
+export var xp_reward = 5
 
 export var ranged_damage = 1
 export var projectile_speed_multiplier = 1.0
@@ -97,12 +98,16 @@ func forget_player():
 	state = IDLE
 
 # --------------------------------------------- state machine --------------------------------------------
-func _physics_process(delta):
+func _physics_process(_delta):
 	match state:
 		IDLE:
 			idle()
 		CHASE:
 			chase_player()
+		
+	if anim:
+		if anim.has_animation("Move") and anim.current_animation != "Move":
+			anim.queue("Move")
 
 func idle():
 	if walk_ended: # in intervallen von idle_movement_time läuft der enemy in eine zufällige richtung
@@ -214,9 +219,12 @@ func melee_attack():
 
 func take_damage(damage):
 	stats.health = max(0, stats.health - damage)
-#	if stats.health > 0:
-#		anim.play("hurt")
+	if anim:
+		if anim.has_animation("Hurt"):
+			if stats.health > 0:
+				anim.play("Hurt")
 
 func die():
 #	anim.play("die")
+	emit_signal("enemy_died", xp_reward)
 	queue_free()
