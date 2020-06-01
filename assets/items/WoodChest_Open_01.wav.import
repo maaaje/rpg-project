@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/WoodChest_Open_01.wav-2fb2fb709aadbd5b9560d2c0873961cd.sample"
+
+[deps]
+
+source_file="res://assets/items/WoodChest_Open_01.wav"
+dest_files=[ "res://.import/WoodChest_Open_01.wav-2fb2fb709aadbd5b9560d2c0873961cd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

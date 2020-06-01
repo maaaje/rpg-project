@@ -23,6 +23,12 @@ enum {
 	ATTACK
 }
 var state = MOVE
+
+onready var sprite = $Sprite
+onready var down_texture = preload("res://assets/character/player/walking_down.png")
+onready var up_texture = preload("res://assets/character/player/walking_up.png")
+onready var side_texture = preload("res://assets/character/player/walking_side.png")
+
 onready var animation_player = $AnimationPlayer
 onready var ranged_cooldown = $RangedCooldown
 export (float) var cooldown_time_ranged = 0.5
@@ -56,6 +62,28 @@ func _physics_process(delta):
 
 # ------------------- STATE_MACHINE FOR MOVEMENT ------------------------
 func move_state(delta):
+	var animation_to_play = ""
+	
+	if velocity == Vector2.ZERO:
+		if not animation_player.get_current_animation() == "Hurt":
+			animation_player.stop()
+			sprite.texture = down_texture
+			sprite.frame = 0
+	elif velocity.x > 0:
+		sprite.texture = side_texture
+		sprite.flip_h = true
+		animation_player.queue("Walking")
+	elif velocity.x < 0:
+		sprite.texture = side_texture
+		sprite.flip_h = false
+		animation_player.queue("Walking")
+	elif velocity.x == 0 and velocity.y > 0:
+		sprite.texture = down_texture
+		animation_player.queue("Walking")
+	elif velocity.x == 0 and velocity.y < 0:
+		sprite.texture = up_texture
+		animation_player.queue("Walking")
+	
 	var input_vector = Vector2.ZERO
 	
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -116,3 +144,8 @@ func take_damage(dmg):
 	
 func _on_PlayerStats_no_health():
 	print("Spieler gestorben")
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name =="Hurt":
+		print("Schadensanimation abgespielt")
