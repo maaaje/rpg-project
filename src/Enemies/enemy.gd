@@ -117,6 +117,7 @@ func idle():
 		idle_move_timer.one_shot = true
 		idle_move_timer.wait_time = idle_movement_time
 		idle_move_timer.start()
+		
 	velocity = move_and_slide(velocity.normalized() * move_speed)
 
 func idle_move_timer_timeout():

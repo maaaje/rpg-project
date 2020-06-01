@@ -1,35 +1,18 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/character/enemies/slime.png" type="Texture" id=1]
-[ext_resource path="res://src/Enemies/Slime.gd" type="Script" id=2]
-[ext_resource path="res://src/Interface/HealthCounter.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Functions/PlayerDetectionArea.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Enemies/Slime.gd" type="Script" id=3]
 [ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/Enemies/AnimationPlayer.gd" type="Script" id=7]
+[ext_resource path="res://src/Functions/MeleeDamageArea.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=7]
 
-[sub_resource type="OccluderPolygon2D" id=1]
-polygon = PoolVector2Array( -6, 3, 6, 3, 8, 0, -8, 0 )
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.88569
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 6.70847
-
-[sub_resource type="Animation" id=3]
-length = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ 2, 3, 2 ]
-}
-
-[sub_resource type="Animation" id=4]
-length = 0.8
+[sub_resource type="Animation" id=2]
+resource_name = "slime_wobble"
+length = 0.4
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -38,107 +21,47 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="CircleShape2D" id=5]
-radius = 7.27
-
-[sub_resource type="CircleShape2D" id=6]
-radius = 70.7551
-
-[node name="Slime" type="KinematicBody2D" groups=[
-"enemies",
-]]
+[node name="Slime" type="KinematicBody2D"]
 collision_layer = 2
-collision_mask = 15
-script = ExtResource( 2 )
+collision_mask = 14
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
 }
-ranged_cooldown = 1
+fighting_type = "ranged"
+ranged_damage = 6
+projectile_speed_multiplier = 0.6
+ranged_attack_speed = 2.0
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-scale = Vector2( 0.488208, 1.31783 )
-occluder = SubResource( 1 )
-
-[node name="ProjectileSpawnPosition" type="Position2D" parent="."]
-
-[node name="Label" type="Label" parent="."]
-visible = false
-margin_left = -18.7758
-margin_top = -37.3938
-margin_right = 21.2242
-margin_bottom = -23.3938
-text = "STATE"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 0.0484943, -2.13377 )
-shape = SubResource( 2 )
+[node name="PlayerDetectionArea" parent="." instance=ExtResource( 2 )]
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -4 )
 texture = ExtResource( 1 )
 hframes = 4
-frame = 2
-region_rect = Rect2( 0, 0, 16, 16 )
+frame = 1
 
-[node name="HealthCounter" parent="." instance=ExtResource( 3 )]
-margin_left = -10.0362
-margin_top = -24.5412
-margin_right = 9.96386
-margin_bottom = -14.5411
-
-[node name="Bar" parent="." instance=ExtResource( 5 )]
-margin_left = -12.3928
-margin_top = -14.0974
-margin_right = 35.6072
-margin_bottom = -6.0974
-
-[node name="Stats" parent="." instance=ExtResource( 4 )]
-max_health = 30
-health = 30
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2.03915 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "slime_wobble"
-anims/Hurt = SubResource( 3 )
-anims/slime_wobble = SubResource( 4 )
-script = ExtResource( 7 )
+anims/slime_wobble = SubResource( 2 )
 
-[node name="WalkState" type="Timer" parent="."]
+[node name="Stats" parent="." instance=ExtResource( 4 )]
+max_health = 20
+health = 20
 
-[node name="HitBox" type="Area2D" parent="."]
-visible = false
-collision_layer = 0
+[node name="MeleeDamageArea" parent="." instance=ExtResource( 5 )]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2( -0.0510483, -1.99083 )
-shape = SubResource( 5 )
-
-[node name="DamageTimer" type="Timer" parent="."]
-
-[node name="ShootTimer" type="Timer" parent="."]
-
-[node name="PlayerDetectionArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
-shape = SubResource( 6 )
-[connection signal="health_updated" from="Stats" to="HealthCounter" method="_on_Stats_health_updated"]
-[connection signal="health_updated" from="Stats" to="Bar" method="_on_Stats_health_updated"]
-[connection signal="health_updated" from="Stats" to="AnimationPlayer" method="_on_Stats_health_updated"]
-[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
-[connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="timeout" from="WalkState" to="." method="_on_WalkState_timeout"]
-[connection signal="area_entered" from="HitBox" to="." method="_on_HitBox_area_entered"]
-[connection signal="area_exited" from="HitBox" to="." method="_on_HitBox_area_exited"]
-[connection signal="timeout" from="DamageTimer" to="." method="_on_DamageTimer_timeout"]
-[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
-[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]
-[connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_exited"]
+[node name="Bar" parent="." instance=ExtResource( 7 )]
+margin_left = -11.9063
+margin_top = -8.98725
+margin_right = 36.0937
+margin_bottom = -0.987246

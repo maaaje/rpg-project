@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/character/enemies/mimic_chests.png" type="Texture" id=1]
+[ext_resource path="res://src/Functions/PlayerDetectionArea.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Functions/Stats.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Interface/Bar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Functions/MeleeDamageArea.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Enemies/MimicChest.gd" type="Script" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.12688, 6.10605 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Idle"
+length = 0.3
+loop = true
+step = 0.15
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[node name="MimicChest" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 15
+script = ExtResource( 6 )
+fighting_type = "melee"
+melee_damage = 15
+move_speed = 22
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.102095, 1.99083 )
+shape = SubResource( 1 )
+
+[node name="PlayerDetectionArea" parent="." instance=ExtResource( 2 )]
+
+[node name="Stats" parent="." instance=ExtResource( 3 )]
+max_health = 30
+health = 30
+
+[node name="MeleeDamageArea" parent="." instance=ExtResource( 5 )]
+
+[node name="Bar" parent="." instance=ExtResource( 4 )]
+margin_left = -12.155
+margin_top = -12.8229
+margin_right = 35.845
+margin_bottom = -4.82289
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 2
+frame = 1
+region_enabled = true
+region_rect = Rect2( 0, 0, 32, 16 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Idle = SubResource( 2 )
+
+[editable path="MeleeDamageArea"]
